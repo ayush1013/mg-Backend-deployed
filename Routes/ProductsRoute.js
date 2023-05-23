@@ -2,29 +2,6 @@ const express = require("express");
 const productsRoute = express.Router();
 const ProductsModel = require("../Models/ProductsModel");
 
-// productsRoute.get("/", async (req, res) => {
-//   const text = req.query.text;
-//   const { limit = 20, page = 1, sort, order } = req.query;
-//   // res.send("Welcome to the products page")
-//   try {
-//     if (text) {
-//       let products = await ProductsModel.find({
-//         title: { $regex: text, $options: "i" },
-//       })
-//         .limit(limit)
-//         .skip(limit * (page - 1));
-//       res.send(products);
-//     }else {
-//       let products = await ProductsModel.find()
-//         .limit(limit)
-//         .skip(limit * (page - 1));
-//       res.send(products);
-//     }
-//   } catch (err) {
-//     res.send(err.message);
-//   }
-// });
-
 productsRoute.get("/", async (req, res) => {
   const text = req.query.text;
   const { limit = 20, page = 1, sort, order, category } = req.query;
@@ -51,6 +28,7 @@ productsRoute.get("/", async (req, res) => {
 
     // Count total number of products matching the query
     const totalCount = await ProductsModel.countDocuments(query);
+    
     // Pagination
     const totalPages = Math.ceil(totalCount / limit);
     const currentPage = parseInt(page);

@@ -5,6 +5,7 @@ require("dotenv").config();
 const {connection} = require("./Config/config.js");
 const productsRoute = require("./Routes/ProductsRoute.js");
 const adminRoute = require("./Routes/AdminRoute.js")
+const userRouter = require("./Routes/UserRoute.js");
 
 app.use(cors());
 app.use(express.json());
@@ -12,6 +13,8 @@ app.use(express.json());
 app.use("/products", productsRoute);
 
 app.use("/admin", adminRoute);
+
+app.use("/user", userRouter);
 
 app.get("/", async (req, res) => {
     res.send("Welcom to Home Page")
