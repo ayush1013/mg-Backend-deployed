@@ -14,7 +14,7 @@ app.use("/products", productsRoute);
 
 app.use("/admin", adminRoute);
 
-app.use("/user", userRouter);
+// app.use("/user", userRouter);
 
 app.get("/", async (req, res) => {
     res.send("Welcom to Home Page")
