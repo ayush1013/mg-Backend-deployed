@@ -24,6 +24,10 @@ productsRoute.get("/", async (req, res) => {
       let sortOption = {};
       sortOption.price = order === "desc" ? -1 : 1;
       productsQuery.sort(sortOption);
+    }else if (sort === 'title') {
+      let sortOption = {};
+      sortOption.title = (order === 'desc' ? -1 : 1);
+      productsQuery.sort(sortOption);
     }
 
     // Count total number of products matching the query
