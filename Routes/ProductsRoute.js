@@ -4,7 +4,19 @@ const ProductsModel = require("../Models/ProductsModel");
 
 productsRoute.get("/", async (req, res) => {
   const text = req.query.text;
-  const { limit = 20, page = 1, sort, order, category } = req.query;
+  const { limit = 20, page = 1, sort, order, category, id } = req.query;
+
+  if (id) {
+    try {
+      const product = await ProductsModel.findById(id);
+      if (!product) {
+        return res.status(404).send("Product not found");
+      }
+      return res.send(product);
+    } catch (err) {
+      return res.status(500).send("Internal Server Error");
+    }
+  }
 
   try {
     let query = {};
@@ -48,6 +60,20 @@ productsRoute.get("/", async (req, res) => {
     });
   } catch (err) {
     res.send(err.message);
+  }
+});
+
+productsRoute.get("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const product = await ProductsModel.findById(id);
+    if (!product) {
+      return res.status(404).send("Product not found");
+    }
+    return res.send(product);
+  } catch (err) {
+    return res.status(500).send("Internal Server Error");
   }
 });
 
