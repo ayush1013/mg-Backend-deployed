@@ -16,7 +16,7 @@ userRouter.post("/signup", async (req, res) => {
 
   try {
     if (userData.length > 0) {
-      res.send("User already exists");
+      return res.send({message : "User already exists"});
     } else {
       try {
         bcrypt.hash(password, 5, async (err, hashPass) => {
