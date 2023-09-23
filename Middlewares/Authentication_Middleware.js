@@ -5,7 +5,7 @@ const AuthenticationMiddleware = (req, res, next) => {
     const token = req.headers.authorization;
     if(token){
         const decodedPassword = jwt.verify(token, process.env.key)
-        console.log(decodedPassword);
+        console.log("decodedPassword", decodedPassword);
         if(decodedPassword){
             const userID = decodedPassword.userID;
             req.body.userID = userID;

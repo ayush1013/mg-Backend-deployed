@@ -6,10 +6,12 @@ const {connection} = require("./Config/config.js");
 const productsRoute = require("./Routes/ProductsRoute.js");
 const adminRoute = require("./Routes/AdminRoute.js")
 const userRouter = require("./Routes/UserRoute.js");
+// const AuthenticationMiddleware = require("./Middlewares/Authentication_Middleware.js")
 
 app.use(cors());
 app.use(express.json());
 // connection
+// app.use(AuthenticationMiddleware);
 app.use("/products", productsRoute);
 
 app.use("/admin", adminRoute);
