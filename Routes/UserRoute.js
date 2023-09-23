@@ -42,23 +42,25 @@ userRouter.post("/signup", async (req, res) => {
 userRouter.post("/login", async(req,res)=>{
   const {email, password} = req.body;
 
+  console.log(email, password);
+
   try {
-    
     const user = await UserModel.find({email});
     if(user.length>0){
-      bycript.compare(password, user[0].password, (err,res)=>{
-        if(res){
+      bcrypt.compare(password, user[0].password, (err,result)=>{
+        if(result){
           const token = jwt.sign({userID: user[0]._id}, process.env.key, {expiresIn:"24h"})
           return res.status(201).send({ message: "Login Successfull", token: token });
         }else{
-          return res.status(403).send({ message: "Wrong email or password" });
+          return res.status(403).send({ message: "Wrong password" });
         }
       } )
     }else{
-      return res.status(403).send({ message: "User don't exist" });
+      return res.status(403).send({ message: "User does not exist with this email" });
     }
 
   } catch (err) {
+    console.log("err",err)
     return res.status(403).send({ message: "Wrong email or password" });
   }
 
