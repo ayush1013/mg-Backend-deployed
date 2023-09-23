@@ -8,9 +8,11 @@ const jwt = require("jsonwebtoken");
 // userRouter.use(AuthenticationMiddleware)
 
 userRouter.post("/signup", async (req, res) => {
-  const { email, password, name, lastname, gender } = req.query;
+  const { email, password, name, lastname, gender } = req.body;
   const regExp = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{3,8}/g;
   const userData = await UserModel.find({ email });
+
+  console.log("userData",userData);
 
   try {
     if (userData.length > 0) {
@@ -36,5 +38,30 @@ userRouter.post("/signup", async (req, res) => {
     return res.status(403).send({ message: "404 error Url is not working" });
   }
 });
+
+userRouter.post("/login", async(req,res)=>{
+  const {email, password} = req.body;
+
+  try {
+    
+    const user = await UserModel.find({email});
+    if(user.length>0){
+      bycript.compare(password, user[0].password, (err,res)=>{
+        if(res){
+          const token = jwt.sign({userID: user[0]._id}, process.env.key, {expiresIn:"24h"})
+          return res.status(201).send({ message: "Login Successfull", token: token });
+        }else{
+          return res.status(403).send({ message: "Wrong email or password" });
+        }
+      } )
+    }else{
+      return res.status(403).send({ message: "User don't exist" });
+    }
+
+  } catch (err) {
+    return res.status(403).send({ message: "Wrong email or password" });
+  }
+
+})
 
 module.exports = userRouter

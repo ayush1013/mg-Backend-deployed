@@ -36,15 +36,15 @@ productsRoute.get("/", async (req, res) => {
       let sortOption = {};
       sortOption.price = order === "desc" ? -1 : 1;
       productsQuery.sort(sortOption);
-    }else if (sort === 'title') {
+    } else if (sort === "title") {
       let sortOption = {};
-      sortOption.title = (order === 'desc' ? -1 : 1);
+      sortOption.title = order === "desc" ? -1 : 1;
       productsQuery.sort(sortOption);
     }
 
     // Count total number of products matching the query
     const totalCount = await ProductsModel.countDocuments(query);
-    
+
     // Pagination
     const totalPages = Math.ceil(totalCount / limit);
     const currentPage = parseInt(page);
