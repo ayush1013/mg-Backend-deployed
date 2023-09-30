@@ -54,7 +54,7 @@ userRouter.post("/login", async (req, res) => {
           });
 
           res.cookie("token", token, {
-            httpOnly: true,
+            // httpOnly: true,
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
           });
 
