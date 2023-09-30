@@ -52,13 +52,22 @@ userRouter.post("/login", async (req, res) => {
           const token = jwt.sign({ userID: user[0]._id }, process.env.key, {
             expiresIn: "24h",
           });
-          return res
-            .status(201)
-            .send({
-              message: "Login Successfull",
-              token: token,
-              userDetails: user,
-            });
+
+          res.cookie("token", token, {
+            httpOnly: true,
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          });
+
+          res.cookie("userDetails", user, {
+            httpOnly: true,
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          });
+
+          return res.status(201).send({
+            message: "Login Successfull",
+            token: token,
+            userDetails: user,
+          });
         } else {
           return res.status(403).send({ message: "Wrong password" });
         }
