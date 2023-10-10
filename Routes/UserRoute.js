@@ -54,13 +54,17 @@ userRouter.post("/login", async (req, res) => {
           });
 
           res.cookie("token", token, {
-            // httpOnly: true,
-            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            httpOnly: true,
+            expires: new Date(Date.now() + 2*60*1000),
+            sameSite: "none",
+            secure: true,
           });
 
           res.cookie("userDetails", user, {
             httpOnly: true,
-            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            expires: new Date(Date.now() + 2*60 * 1000),
+            sameSite: "none",
+            secure: true,
           });
 
           return res.status(201).send({

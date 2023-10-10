@@ -8,7 +8,7 @@ const adminRoute = require("./Routes/AdminRoute.js")
 const userRouter = require("./Routes/UserRoute.js");
 // const AuthenticationMiddleware = require("./Middlewares/Authentication_Middleware.js")
 
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 // connection
 // app.use(AuthenticationMiddleware);
